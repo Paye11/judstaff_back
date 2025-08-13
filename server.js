@@ -74,7 +74,7 @@ let memoryStore = null;
 
 // Serve static files
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  res.send('BACKEND IS RUNNING');
 });
 
 // Error handling middleware 
