@@ -43,6 +43,12 @@ router.post('/login', [
         message: 'Account is deactivated'
       });
     }
+    if (!user) {
+  return res.status(401).json({
+    success: false,
+    message: 'user not found'
+  });
+}
 
     // Verify password
     const isPasswordValid = await user.comparePassword(password);
