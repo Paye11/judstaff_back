@@ -18,10 +18,14 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.REACT_APP_API_URL,
+  origin: 'https://judstaff.netlify.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));app.use(express.json());
-app.use(express.static(path.join(__dirname, '../frontend')));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend')));
+}
+
 
 // MongoDB connection with fallback
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/judiciary_staff_management';
