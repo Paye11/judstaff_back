@@ -32,7 +32,7 @@ router.post('/login', [
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid username or password'
+        message: 'Invalid username'
       });
     }
 
