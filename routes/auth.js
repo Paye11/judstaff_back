@@ -51,12 +51,8 @@ router.post('/login', [
 }
 
     // Verify password
-    const isPasswordValid = await user.comparePassword(password);
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid username or password'
-      });
+   if (password !== user.password) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     // Generate JWT token
