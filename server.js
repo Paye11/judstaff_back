@@ -17,11 +17,34 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+// app.use(cors({
+//   origin: 'https://judstaff.netlify.app',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
+// Update your CORS middleware to:
+const allowedOrigins = [
+  'https://juddstaff.netlify.app', // Your production frontend
+  'https://judstaff.netlify.app', // Previous frontend URL
+  'http://localhost:3000' // Local development
+];
+
 app.use(cors({
-  origin: 'https://judstaff.netlify.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));app.use(express.json());
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(express.json());
 if (process.env.NODE_ENV !== 'production') {
   app.use(express.static(path.join(__dirname, '../frontend')));
 }

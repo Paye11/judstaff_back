@@ -28,7 +28,7 @@ router.post('/login', [
     const { username, password } = req.body;
 
     // Find user by username
-    const user = await User.findByUsername(username);
+    const user = await User.findOne({ username });
     if (!user) {
       return res.status(401).json({
         success: false,
